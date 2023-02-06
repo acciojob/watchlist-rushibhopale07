@@ -23,10 +23,11 @@ public class MovieRepository {
     public String addMovieDirectorPair(String movie,String director) {
         if (movieMap.containsKey(movie) && directorMap.containsKey(director))
         {
+            movieMap.put(movie,movieMap.get(movie));
+            directorMap.put(director,directorMap.get(director));
             List <String> movielist = new ArrayList<>();
             if(directorMovieMap.containsKey(director))
                 movielist=directorMovieMap.get(director);
-
                 movielist.add(movie);
             directorMovieMap.put(movie,movielist);
             return "Added";
