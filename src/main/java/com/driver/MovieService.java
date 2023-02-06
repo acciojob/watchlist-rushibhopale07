@@ -11,11 +11,11 @@ public class MovieService {
     @Autowired
     MovieRepository movierepo;
 
-    public void addMovie(Movie movie){
-        movierepo.addMovie(movie);
+    public String addMovie(Movie movie){
+        return movierepo.addMovie(movie);
     }
-    public void addDirector(Director director){
-        movierepo.addDirector(director);
+    public String addDirector(Director director){
+        return movierepo.addDirector(director);
     }
     public String addMovieDirectorPair(String movie,String director) {
         return movierepo.addMovieDirectorPair(movie,director);
