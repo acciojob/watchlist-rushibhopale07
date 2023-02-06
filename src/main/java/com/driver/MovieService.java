@@ -36,4 +36,13 @@ public class MovieService {
     {
         return movierepo.findAllMovies();
     }
+    public String deleteDirectorByName(String directorName) {
+        movierepo.deleteDirectorByName(directorName);
+        return "Success deleted";
+    }
+    public String deleteAllDirectors()
+    {
+        movierepo.deleteAllDirectors();
+        return "Success Deleted";
+    }
 }

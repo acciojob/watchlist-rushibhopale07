@@ -13,35 +13,36 @@ public class MovieController {
     @Autowired
     MovieService movieservice;
 
-    @PostMapping("/add_movie")
+    @PostMapping("/add-movie")
     public ResponseEntity addMovie(@RequestBody Movie movie){
         movieservice.addMovie(movie);
         return new ResponseEntity<>("Successfully Added", HttpStatus.CREATED);
     }
-    @PostMapping("/add_director")
+    @PostMapping("/add-director")
     public ResponseEntity addDirector(@RequestBody Director director){
         movieservice.addDirector(director);
         return new ResponseEntity<>("Successfully Added", HttpStatus.CREATED);
     }
-    @PutMapping("/add_moviedirector")
+    @PutMapping("/add-movie-director-pair")
     public ResponseEntity addMovieDirectorPair(@RequestParam("movie") String movie,@RequestParam("director") String director) {
         String msg=movieservice.addMovieDirectorPair(movie,director);
         if(msg=="Insufficient Information")
             return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
+
     }
-    @GetMapping("/getMovie/{movie}")
-    public ResponseEntity getMovieByName(@PathVariable("movie") String moviename)
+    @GetMapping("/get-movie-by-name/{name}")
+    public ResponseEntity getMovieByName(@PathVariable("name") String moviename)
     {
         Movie movie = movieservice.getMovieByName(moviename);
         if(movie==null)
-            return new ResponseEntity<>(movie,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Enter Listed Movie Name",HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(movie,HttpStatus.FOUND);
     }
-    @GetMapping("/getdirector/{director}")
-    public ResponseEntity getDirectorByName(@PathVariable("director") String directorname)
+    @GetMapping("get-director-by-name/{name}")
+    public ResponseEntity getDirectorByName(@PathVariable("name") String directorname)
     {
         Director director= movieservice.getDirectorByName(directorname);
         if(director==null)
@@ -49,8 +50,8 @@ public class MovieController {
 
         return new ResponseEntity<>(director,HttpStatus.FOUND);
     }
-    @GetMapping("list_of_movie")
-    public ResponseEntity getMoviesByDirectorName(@RequestParam("director") String directorname)
+    @GetMapping("get-movies-by-director-name/{director}")
+    public ResponseEntity getMoviesByDirectorName(@PathVariable("director") String directorname)
     {
         List<String> list=movieservice.getMoviesByDirectorName(directorname);
         if(list.isEmpty())
@@ -58,7 +59,7 @@ public class MovieController {
 
         return new ResponseEntity<>(list,HttpStatus.FOUND);
     }
-    @GetMapping("list_of_movies")
+    @GetMapping("get-all-movies")
     public ResponseEntity findAllMovies()
     {
         List<String> list=movieservice.findAllMovies();
@@ -66,6 +67,15 @@ public class MovieController {
             return new ResponseEntity<>("Empty List",HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(list,HttpStatus.FOUND);
     }
-
+    @DeleteMapping("/delete-director-by-name")
+    public ResponseEntity deleteDirectorByName(@RequestParam("director") String directorName) {
+        String msg=movieservice.deleteDirectorByName(directorName);
+        return new ResponseEntity<>(msg,HttpStatus.ACCEPTED);
+    }
+    @DeleteMapping("/delete-all-directors")
+    public ResponseEntity deleteAllDirectors() {
+        String msg=movieservice.deleteAllDirectors();
+        return new ResponseEntity<>(msg,HttpStatus.ACCEPTED);
+    }
 
 }
